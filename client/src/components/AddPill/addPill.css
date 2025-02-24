@@ -1,0 +1,43 @@
+
+.addpill{
+    width: 450px;
+    height: 300px;
+    border: black solid 2px;
+    border-radius: 8px;
+    background-color: antiquewhite;
+    padding: 0 10px;
+    position: fixed;
+    /* top: calc(( 100vh - 300px)/ 2 ) */
+    top: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around ;
+    
+}
+
+.closeBtn{
+    position: absolute;
+    top: 3px;
+    right: 3px;
+}
+
+.addpill form{
+    /* height: 100%; */
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: start;
+    
+    align-items: flex-start
+}
+.addpill form input{
+    margin: 10px;
+    font-size: large;
+    border-radius: 6px;
+}
+
+.addpPillBtn{
+    margin-left: auto;
+    font-size: large;
+    padding: 5px 10px;
+}

@@ -1,0 +1,27 @@
+.header {
+  height: 50px;
+  /* width: calc(100% - 30px); */
+  /* margin: 0 15px; */
+  display: flex;
+  justify-content: space-between;
+}
+.logo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 200px;
+}
+.logo img {
+  height: 30px;
+  width: 30px;
+}
+.settings{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.settings img{
+    height: 30px;
+    width: 30px;
+}
