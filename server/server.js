@@ -1,3 +1,6 @@
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
+
 import express from "express";
 import cookieParser from "cookie-parser";
 import { searchRouter } from "./router/search_router.js";
@@ -6,6 +9,9 @@ import cors from 'cors'
 import dotenv from "dotenv";
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 
@@ -33,5 +39,9 @@ app.use('/check', (req,res)=>{
 
 
 
+app.use(express.static(path.join(__dirname, "../client/dist")));
 
+app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../client/dist", "index.html"));
+});
 

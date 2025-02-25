@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-const apiUrl = process.env.VITE_API_URL || 'http://localhost:3001/api';
+const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
 const initialState = {
   allPills: [],
