@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-const defaultUrl = 'http://localhost:3001/api'
+const apiUrl = process.env.VITE_API_URL || 'http://localhost:3001/api';
 
 const initialState = {
   allPills: [],
@@ -12,7 +12,7 @@ export const getAllPills = createAsyncThunk("/data/all", async () => {
   
     try {
       
-        const response = await axios.post(`${defaultUrl}/pills/all`,{user_id});
+        const response = await axios.post(`${apiUrl}/pills/all`,{user_id});
 
         return response.data;
 
@@ -41,7 +41,7 @@ export const addPillToUser =createAsyncThunk('/data/addpill',async(data)=>{
   //   });
   try {
     
-    const response = await axios.post(`${defaultUrl}/pills/addpill`,data)
+    const response = await axios.post(`${apiUrl}/pills/addpill`,data)
     console.log(response.data);
     
     return response.data
@@ -58,7 +58,7 @@ export const removePill = createAsyncThunk('/data/removepill', async({pill_name,
   const user_id = localStorage.getItem('user_id') || 1
 
   try {
-    const response = await axios.delete(`${defaultUrl}/pills/remove`,{data:{ pill_name, pill_id, user_id}})
+    const response = await axios.delete(`${apiUrl}/pills/remove`,{data:{ pill_name, pill_id, user_id}})
     
     return response.data
   } catch (error) {
