@@ -7,7 +7,7 @@ const initialState = {
   status: "Success",
 };
 
-export const getAllPills = createAsyncThunk("/data/all", async () => {
+export const getAllPills = createAsyncThunk("/pills/all", async () => {
   const user_id = localStorage.getItem('user_id') || 1
   
     try {
@@ -25,9 +25,9 @@ export const getAllPills = createAsyncThunk("/data/all", async () => {
     }
 });
 
-export const addPillToUser =createAsyncThunk('/data/addpill',async(data)=>{
+export const addPillToUser =createAsyncThunk('/pills/addpill',async(data)=>{
   data.user_id = localStorage.getItem('user_id')
-  // console.log(data);
+  console.log('addPillToUser ',data);
 
   // Object.keys(data).forEach((key) => {
     
@@ -54,7 +54,7 @@ export const addPillToUser =createAsyncThunk('/data/addpill',async(data)=>{
   }
 })
 
-export const removePill = createAsyncThunk('/data/removepill', async({pill_name,pill_id})=>{
+export const removePill = createAsyncThunk('/pills/removepill', async({pill_name,pill_id})=>{
   const user_id = localStorage.getItem('user_id') || 1
 
   try {

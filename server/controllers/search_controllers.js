@@ -20,14 +20,19 @@ export const getAllUserPills = async (req, res) => {
 
 export const addPillToUser = async (req, res) => {
   const { user_id, pill_name, dosage, frequency,start_date,end_date, times_per_day,time_of_day,days_of_week,custom_dates} = req.body;
-  // console.log({user_id, pill_name, dosage, frequency,start_date,end_date, times_per_day,time_of_day,days_of_week,custom_dates});
   // res.send({msg:'OK'})
-  const timesPerDay = parseInt(times_per_day,10)
+  const timesPerDay = parseInt(times_per_day,10) || null
+  
   const data = { user_id, pill_name, dosage, frequency,start_date,end_date, times_per_day:timesPerDay,time_of_day,days_of_week,custom_dates}
-
+  
   Object.keys(data).forEach((key) => {
-    if(data[key] === '') data[key] = null
+    console.log(key,'-',data[key]);
+    if(data[key] === '' || data[key] === undefined) {
+      data[key] = null
+    }
   });
+  
+  
   try {
     const newPill = await _addPillToUser(data);
     // const newPill = { user_id, pill_name, dosage, frequency,start_date,end_date, times_per_day,time_of_day,days_of_week,custom_dates}
