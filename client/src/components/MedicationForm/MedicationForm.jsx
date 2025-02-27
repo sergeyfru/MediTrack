@@ -21,13 +21,13 @@ export const MedicationForm = ({ openAdd, setOpenAdd }) => {
   const [formData, setFormData] = useState({
     pill_name: "",
     dosage: "",
-    frequency: "daily",
+    frequency: "",
     start_date: new Date().toISOString().split("T")[0],
     end_date: "",
-    times_per_day: '1',
+    times_per_day: '',
     days_of_week: [],
     custom_dates:[],
-    time_of_day:['08:00'],
+    time_of_day:[],
   });
 
   const [errors, setErrors] = useState({});
@@ -293,7 +293,7 @@ export const MedicationForm = ({ openAdd, setOpenAdd }) => {
           ) : formData.frequency === "custom" ? (
             <>custom</>
           ) : (
-            <>boo</>
+            <></>
           )}
         </Box>
         <Button

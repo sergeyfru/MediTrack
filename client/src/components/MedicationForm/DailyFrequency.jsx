@@ -8,7 +8,7 @@ export const DailyFrequency = ({
   setErrors,
   errors,
 }) => {
-  const [defaultTimes, setDefaultTimes] = useState("1");
+  const [defaultTimes, setDefaultTimes] = useState("4");
   const [customTimes, setCustomTimes] = useState("");
 
   const handleChange = (event, newValue) => {
@@ -32,10 +32,10 @@ export const DailyFrequency = ({
       if (!/^\d+$/.test(value) || num < 1 || num > 24) {
         setCustomTimes(value);
         setErrors({ ...errors, customTimes: "Enter a number 1-24" });
-        setFormData({
-          ...formData,
+        setFormData((prev)=>({
+          ...prev,
           times_per_day: "1",
-        });
+        }));
       } else {
         if (errors.customTimes) {
           setErrors({ ...errors, customTimes: "" });

@@ -10,7 +10,7 @@ import { Box, Button, Typography } from "@mui/material";
 export const MedicalList = () => {
     const [openAdd,setOpenAdd] = useState(false)
   const dispatch = useDispatch();
-  const pillsToShow = useSelector((state) => state.pillsReducer.allPills );
+  const pillsToShow = useSelector((state) => state.dataReducer.allPills );
   useEffect(() => {
     dispatch(getAllPills());
   }, []);

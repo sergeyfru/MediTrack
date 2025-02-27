@@ -11,7 +11,7 @@ export const verifyToken = (req,res,next)=>{
     const decoded = verifyRefreshToken(token)
 
     if(!decoded){
-        res.status(403).json({msg:'Invalid token'})
+       return res.status(403).json({msg:'Invalid token'})
     }
 
     req.user = {user_id:decoded.user_id}

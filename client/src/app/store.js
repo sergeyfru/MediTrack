@@ -1,10 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import pillsReducer from "../features/slice.js";
+import dataReducer from "../features/slice.js";
+// import popupReducer from "../features/popup_slice.js";
+// import 
 
 
 const store =  configureStore({
     reducer:{
-        pillsReducer,
+        dataReducer,
+        // popupReducer
     }
 })
 

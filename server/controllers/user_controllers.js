@@ -16,16 +16,16 @@ export const checkUser = async (req, res) => {
 
 export const registration = async (req, res) => {
   const { email, first_name, last_name, phone, password } = req.body;
-
+  
   try {
     const { emailInDB, phoneInDB } = await _checkUser({ email, phone });
     console.log("emailInDB, phoneInDB", emailInDB, phoneInDB);
 
     if (emailInDB) {
-      res.json({ msg: "A user with this email address exists" });
+      return res.json({show:true, msg: "This email is already registered!\nPlease enter another or recover your account." });
     }
     if (phoneInDB) {
-      res.json({ msg: "A user with this phone number exists" });
+     return res.json({show:true, msg: "This phone number is already registered!\nPlease enter another or recover your account." });
     }
 
     const salt = bcrypt.genSaltSync(10);
@@ -39,10 +39,10 @@ export const registration = async (req, res) => {
       password: hashedPassword,
     });
 
-    res.status(201).json({ msg: "User created", user: newUser });
+    res.status(201).json({ show:true, title:'Success', msg: "Registration successful!", user: newUser });
   } catch (error) {
     console.error("Users controllers Registration =>", error);
-    res.status(404).json({ msg: "Error during Registration" });
+    res.status(400).json({title:'Error', msg: "Error during Registration" });
   }
 };
 
@@ -51,15 +51,21 @@ export const login = async (req, res) => {
   try {
     const { emailInDB } = await _checkUser({ email });
     if (!emailInDB) {
-     return  res.json({ msg: "User with such email does not exist" });
+      return res.json({ show:true, msg: "This email is not registered.\nPlease sign up or check for typos." });
     }
+    // if (!phoneInDB) {
+    //  return res.json({ msg: "This phone number is already registered!\nPlease enter another or recover your account." });
+    // }
 
     const { user, hashedPassword } = await _login({ email });
 
     const isMatch = bcrypt.compareSync(password + "", hashedPassword.password);
+console.log(isMatch);
 
-    if (!user || !isMatch) {
-      return res.status(401).json({ msg: "Wrong email or password" });
+    if ( !isMatch) {
+      console.log('no match');
+      
+      return res.status(200).json({ show:false,  msg: "Wrong email or password" });
     }
 
     const accessToken = generateAccessToken(user)
@@ -70,7 +76,7 @@ export const login = async (req, res) => {
         maxAge:process.env.REFRESH_TOKEN_EXPIRY
     })
 
-    res.status(200).json({msg:'Logged in successfully',accessToken,user})
+    res.status(200).json({ show:false, title:'Success',msg:'Logged in successfully',accessToken,user})
 
 
   } catch (error) {

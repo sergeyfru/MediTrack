@@ -2,7 +2,7 @@ import {
   _addPillToUser,
   _removePillFromUser,
   _getAllUserPills,
-} from "../models/search_models.js";
+} from "../models/pills_models.js";
 
 export const getAllUserPills = async (req, res) => {
     
@@ -36,7 +36,7 @@ export const addPillToUser = async (req, res) => {
   try {
     const newPill = await _addPillToUser(data);
     // const newPill = { user_id, pill_name, dosage, frequency,start_date,end_date, times_per_day,time_of_day,days_of_week,custom_dates}
-    res.json({ msg: "Pill added successfully", pill: newPill });
+    res.json({show:true, msg: "Pill added successfully", pill: newPill });
   } catch (error) {
     console.error("Errorr in controller", error);
     res.status(400).json({ msg: "Adding Error" });
@@ -55,7 +55,7 @@ export const removePillFromUser = async (req, res) => {
       pill_id,
     });
 
-    res.json({ msg: "Pill removed successfully", pill: removedPill });
+    res.json({show:true, msg: "Pill removed successfully", pill: removedPill });
   } catch (error) {
     console.error("Errorr in controller", error);
     res.status(400).json({ msg: "Removing Error" });
