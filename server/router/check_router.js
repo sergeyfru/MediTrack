@@ -1,5 +1,5 @@
 import express from "express";
-import { sendNotification } from "../utils/notificationService";
+import { sendNotification } from "../utils/notificationService.js";
 
 
 
