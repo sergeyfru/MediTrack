@@ -17,6 +17,7 @@ export const TimeOfDay = ({ frequency, formData, setFormData }) => {
     setFormData((prev) => ({
       ...prev,
       time_of_day: newTimesArr,
+      times_per_day: 24 / newIntervals
     }));
   };
 
@@ -29,6 +30,7 @@ export const TimeOfDay = ({ frequency, formData, setFormData }) => {
       setFormData((prev) => ({
         ...prev,
         time_of_day: newTime,
+
       }));
     } else {
       const errorsArr = Array.from(parseInt(frequency)).map((_, i) => "");

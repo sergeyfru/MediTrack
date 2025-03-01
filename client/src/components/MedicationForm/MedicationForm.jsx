@@ -151,6 +151,18 @@ export const MedicationForm = ({ openAdd, setOpenAdd }) => {
       setErrors(newErrors);
     } else {
       dispatch(addPillToUser(formData));
+
+      setFormData({
+        pill_name: "",
+        dosage: "",
+        frequency: "",
+        start_date: new Date().toISOString().split("T")[0],
+        end_date: "",
+        times_per_day: '',
+        days_of_week: [],
+        custom_dates:[],
+        time_of_day:[],
+      })
       // alert("Form submitted!");
     }    
 

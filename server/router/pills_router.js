@@ -4,7 +4,7 @@ import {
   getAllUserPills,
   addPillToUser,
   removePillFromUser,
-} from "../controllers/search_controllers.js";
+} from "../controllers/pills_controllers.js";
 
 export const searchRouter = express.Router();
 

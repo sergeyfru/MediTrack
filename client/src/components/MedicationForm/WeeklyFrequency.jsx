@@ -31,15 +31,15 @@ export const WeeklyFrequency = ({ setFormData, formData }) => {
         flexWrap={"wrap"}
         justifyContent={"center"}
       >
-         {[
-          "Sunday",
+        {[
           "Monday",
           "Tuesday",
           "Wednesday",
           "Thursday",
           "Friday",
           "Saturday",
-            ].map((day, index) => {
+          "Sunday",
+        ].map((day, index) => {
           return (
             <ToggleButton
               sx={{
@@ -55,7 +55,7 @@ export const WeeklyFrequency = ({ setFormData, formData }) => {
             </ToggleButton>
           );
         })}
-        
+
         {/* <ToggleButton
           sx={{
             "&.Mui-selected": {

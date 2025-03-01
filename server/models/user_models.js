@@ -28,7 +28,7 @@ export const _registration = async ({
   first_name,
   last_name,
   phone,
-  password,
+  password,verify_token,
 }) => {
   // const user_id = 1
   const trx = await db.transaction();
@@ -37,8 +37,8 @@ export const _registration = async ({
   try {
 
     const [newUser] = await trx("users").insert(
-      { user_id, email, first_name, last_name, phone },
-      ["user_id", "email", "first_name", "last_name", "phone"]
+      { user_id, email, first_name, last_name, phone ,verify_token},
+      ["user_id", "email", "first_name", "last_name", "phone",'verify_token']
     );
 
      await trx("passwords").insert({
@@ -65,7 +65,8 @@ try {
       'email',
       'first_name',
       'last_name',
-      'phone'
+      'phone',
+      'email_verified'
     )
     .where('email',email)
 
@@ -105,3 +106,19 @@ export const _getUser = async({user_id}) =>{
     throw new Error("Failed =>Error in Users models GetUser");
   }
 } 
+export const _verifyEmailToken = async({user_id,email}) =>{
+
+  try {
+    const user = await db('users')
+    .update({ email_verified: true })
+    .where('email',email)
+    .andWhere('user_id',user_id)
+
+    return user
+  } catch (error) {
+    console.log("Error in Users models VerifyEmailToken =>", error);
+    throw new Error("Failed =>Error in Users models VerifyEmailToken");
+  }
+} 
+
+
