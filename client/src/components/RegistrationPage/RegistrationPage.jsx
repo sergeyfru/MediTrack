@@ -8,7 +8,7 @@ import {
   FormLabel,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { registration} from "../../features/slice";
+import { registration } from "../../features/slice";
 // import { Popup } from "../Popup/Popup.jsx";
 import { useNavigate } from "react-router-dom";
 
@@ -22,51 +22,60 @@ export const RegistrationPage = () => {
     confirmPassword: "",
   });
   const openPopUp = useSelector((state) => state.dataReducer.openPopUp);
-  const status = useSelector(state => state.dataReducer.status)
-  const [errors, setErrors] = useState({});
+  const status = useSelector((state) => state.dataReducer.status);
+  const [errors, setErrors] = useState({
+    // password: null,
+  });
   const msg = useSelector((state) => state.dataReducer.msg);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-const isInvalidEmail = (email)=> {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-}
-const isInvalidPassword =(password)=>{
-  let problem = ''
-  if(password.length <= 8){
-    problem += 'Password must be at least 8 characters.\n'
-  }
-  if(!/[A-Z]/.test(password) ){
-    problem += "Password must include at least one uppercase letter.\n"
-  }
-  if(!/[a-z]/.test(password) ){
-    problem += "Password must include at least one lowercase letter.\n"
-  }
-   if(!/\d/.test(password) ){
-    problem += "Password must include at least one number.\n"
-  
-  }
-  //  if(!/[@$!%*?&]/.test(password) ){
-  //   problem += "Password must include a special character (@$!%*?&)."
-  // }
-return problem
-
-}
+  const isInvalidEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+  const isInvalidPassword = (password) => {
+    let problem = null;
+    if (password.length <= 8) {
+      // problem.push("Password must be at least 8 characters.");
+      // problem += "Password must be at least 8 characters.\n";
+      return "Password must be at least 8 characters.\n";
+    }
+    if (!/[A-Z]/.test(password)) {
+      // problem.push("Password must include at least one uppercase letter.");
+      // problem += "Password must include at least one uppercase letter.\n";
+      return "Password must include at least one uppercase letter.\n";
+    }
+    if (!/[a-z]/.test(password)) {
+      // problem.push("Password must include at least one lowercase letter.");
+      // problem += "Password must include at least one lowercase letter.\n";
+      return "Password must include at least one lowercase letter.\n";
+    }
+    if (!/\d/.test(password)) {
+      // problem.push("Password must include at least one number.");
+      // problem += "Password must include at least one number.\n";
+      return "Password must include at least one number.\n";
+    }
+    //  if(!/[@$!%*?&]/.test(password) ){
+    // problem.push("Password must include a special character (@$!%*?&).")
+    //   problem += "Password must include a special character (@$!%*?&)."
+    //  return "Password must include a special character (@$!%*?&)."
+    // }
+    return problem;
+  };
   const checkBeforeSubmit = (newErrors) => {
     Object.keys(user).forEach((key) => {
       if (!user[key].trim()) {
         newErrors[key] = "This field is required";
-      } else{
+      } else {
         delete newErrors[key];
       }
     });
-    if(!isInvalidEmail(user.email)){
-      newErrors.email = 'Invalid email format'
+    if (!isInvalidEmail(user.email)) {
+      newErrors.email = "Invalid email format";
     }
-    if(isInvalidPassword(user.password)){
-      newErrors.password = `${isInvalidPassword(user.password)}`
-    
-    } 
+    if (isInvalidPassword(user.password)) {
+      newErrors.password = `${isInvalidPassword(user.password)}`;
+    }
     // if(isInvalidPassword(user.confirmPassword)){
     //   newErrors.confirmPassword = `${isInvalidPassword(user.confirmPassword)}`
     // }
@@ -79,27 +88,26 @@ return problem
       newErrors.password = "Passwords do not match";
       newErrors.confirmPassword = "Passwords do not match";
     }
-    return newErrors
+    return newErrors;
   };
 
-  const handleSubmit = async () => {
-    const newErrors = checkBeforeSubmit({...errors});
-
-    
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const newErrors = checkBeforeSubmit({ ...errors });
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
-     await dispatch(registration(user));
+      await dispatch(registration(user));
 
-   setUser({
-          email: "",
-          first_name: "",
-          last_name: "",
-          phone: "",
-          password:'',
-          confirmPassword:''
-      })
+      setUser({
+        email: "",
+        first_name: "",
+        last_name: "",
+        phone: "",
+        password: "",
+        confirmPassword: "",
+      });
     }
   };
 
@@ -117,17 +125,17 @@ return problem
     }));
   };
 
-//   useEffect(()=>{
-// if(status === 'Success'){
-//   navigate('/login')
-// }
-//   },[status,navigate])
+  //   useEffect(()=>{
+  // if(status === 'Success'){
+  //   navigate('/login')
+  // }
+  //   },[status,navigate])
   return (
     <Container maxWidth="md">
       <Typography variant="h5" align="center" gutterBottom>
         Create a new account
       </Typography>
-      <form onSubmit={(e) => e.preventDefault()}>
+      <form onSubmit={handleSubmit}>
         <Grid2 container spacing={2} sx={{ justifyContent: "center" }}>
           <Grid2
             size={{ xs: 12, md: 6 }}
@@ -136,7 +144,7 @@ return problem
             gap={2}
           >
             <TextField
-              label={!errors.email ? "Email" :`${errors.email}`  }
+              label={!errors.email ? "Email" : `${errors.email}`}
               placeholder={errors.email ? "Email" : ""}
               name="email"
               fullWidth
@@ -146,7 +154,11 @@ return problem
               error={!!errors.email}
             />
             <TextField
-              label={errors.password ==='This field is required' ? `${errors.password}` : "Password" }
+              label={
+                errors.password === "This field is required"
+                  ? errors.password
+                  : "Password"
+              }
               placeholder={errors.password ? "Password" : ""}
               fullWidth
               type="password"
@@ -154,17 +166,23 @@ return problem
               onChange={handleChange}
               name="password"
               error={!!errors.password}
-              helperText={
-                errors.password === "This field is required"? '':
-                (errors.password.split('\n').map((string,index)=>
-                { return (<Typography key={index} variant="body2" color="error">
-        {string}
-      </Typography>)}))
-              }  />
+              helperText={errors.password}
+              // helperText={
+              //   errors.password === "This field is required"
+              //     ? ""
+              //     // : errors.password
+              //           :  (errors.password.map((string,index)=>
+              //             { return (<Typography key={index} variant="body2" color="error">
+              //     {string}
+              //   </Typography>)}))
+              // }
+            />
 
             <TextField
               label={
-                errors.confirmPassword ==='This field is required' ? `${errors.confirmPassword}` : "Confirm Password"
+                errors.confirmPassword === "This field is required"
+                  ? `${errors.confirmPassword}`
+                  : "Confirm Password"
               }
               placeholder={errors.confirmPassword ? "Confirm password" : ""}
               fullWidth
@@ -233,8 +251,8 @@ return problem
 
           <Grid2 size={{ xs: 12, md: 8 }}>
             <Button
-          loading={status === 'Loading'}
-          loadingPosition="end"
+              // loading={status === "Loading"}
+              loadingPosition="end"
               variant="contained"
               color="success"
               fullWidth
@@ -243,19 +261,18 @@ return problem
               Sign Up
             </Button>
           </Grid2>
-          <Grid2 size={{ xs: 12, md: 6}}>
-                      <Button
-                        variant="text"
-                        // color="success"
-                        fullWidth
-                        onClick={()=>navigate('/login')}
-                      >
-                        Already have an account?
-                      </Button>
-                    </Grid2>
+          <Grid2 size={{ xs: 12, md: 6 }}>
+            <Button
+              variant="text"
+              // color="success"
+              fullWidth
+              onClick={() => navigate("/login")}
+            >
+              Already have an account?
+            </Button>
+          </Grid2>
         </Grid2>
       </form>
-
     </Container>
   );
 };

@@ -110,26 +110,25 @@ export const login = createAsyncThunk("/users/login", async (user) => {
     }
   }
 });
+export const logOut = createAsyncThunk('/users/loguot', async()=>{
+  try {
+    const response = await axios.post(`${apiUrl}/users/logout`);
 
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log("Axios error", error);
+      return error;
+    } else {
+      console.error("Unexpected error", error);
+    }
+  }
+})
 export const dataSlice = createSlice({
   name: "data",
   initialState,
   reducers: {
-    logOut: (state) => {
-      state = {
-        allPills: [],
-        user: {},
-        popup: {
-          msg: "Logged out successfully",
-          openPopup: true,
-          error: "",
-          type: "",
-        },
-        error: "",
-        status: "Logged out",
-      };
-      localStorage.clear();
-    },
+    
     togglePopup: (state) => {
       state.popup.openPopup = !state.openPopup;
     },
@@ -257,11 +256,34 @@ export const dataSlice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         state.status = "Failed";
+      })
+      .addCase(logOut.pending, (state, action) => {
+        state.status = "Loading";
+        // console.log(state.status);
+      })
+      .addCase(logOut.fulfilled, (state, action) => {
+        state = {
+          allPills: [],
+          user: {},
+          popup: {
+            msg: "Logged out successfully",
+            openPopup: true,
+            error: "",
+            type: "",
+          },
+          error: "",
+          status: "Logged out",
+        };
+        localStorage.clear();
+        state.status = "Success";
+      })
+      .addCase(logOut.rejected, (state, action) => {
+        state.status = "Failed";
       });
   },
 });
 
-export const { togglePopup, clearErrorMessage, openPopup, closePopup, logOut } =
+export const { togglePopup, clearErrorMessage, openPopup, closePopup, } =
   dataSlice.actions;
 
 export default dataSlice.reducer;

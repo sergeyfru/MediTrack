@@ -3,8 +3,11 @@ import {
   _removePillFromUser,
   _getAllUserPills,
 } from "../models/pills_models.js";
+import { _addReminderToSchedule } from "../models/reminders_models.js";
 
 export const getAllUserPills = async (req, res) => {
+    // console.log('res', res.cookies.refreshToken);
+    console.log('req' ,req.cookies.refreshToken);
     
     const { user_id } = req.body;
     console.log('in getAllPills',user_id);
@@ -15,6 +18,7 @@ export const getAllUserPills = async (req, res) => {
     console.error("Errorr in controller");
     res.status(400).json({ msg: "Fetching Error" });
   }
+
 };
 
 
@@ -24,6 +28,7 @@ export const addPillToUser = async (req, res) => {
   const timesPerDay = parseInt(times_per_day,10) || null
   
   const data = { user_id, pill_name, dosage, frequency,start_date,end_date, times_per_day:timesPerDay,time_of_day,days_of_week,custom_dates}
+  // console.log('data',data);
   
   Object.keys(data).forEach((key) => {
     console.log(key,'-',data[key]);
@@ -36,7 +41,9 @@ export const addPillToUser = async (req, res) => {
   try {
     const newPill = await _addPillToUser(data);
     // const newPill = { user_id, pill_name, dosage, frequency,start_date,end_date, times_per_day,time_of_day,days_of_week,custom_dates}
-    res.json({show:true, msg: "Pill added successfully", pill: newPill });
+    const reminders = await _addReminderToSchedule(newPill)
+
+    res.json({show:true, msg: "Pill added successfully", pill: {...newPill,reminders} });
   } catch (error) {
     console.error("Errorr in controller", error);
     res.status(400).json({ msg: "Adding Error" });

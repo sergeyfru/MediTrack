@@ -55,7 +55,7 @@ export const _addPillToUser = async ({
       'pill_id':newPill['pill_id'], frequency,
       start_date, end_date, times_per_day,
       time_of_day, days_of_week, custom_dates,
-    },['frequency','start_date', 'end_date', 'times_per_day',
+    },['schedule_id','frequency','start_date', 'end_date', 'times_per_day',
       'time_of_day', 'days_of_week', 'custom_dates']);
 
     await trx.commit();
