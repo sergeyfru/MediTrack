@@ -48,7 +48,6 @@ export const DailyFrequency = ({
         });
       }
     }
-    console.log(formData);
   };
 
   return (

@@ -13,14 +13,6 @@ export const WeeklyFrequency = ({ setFormData, formData }) => {
       days_of_week: newValue.sort((a, b) => a - b),
     }));
 
-    console.log(formData);
-
-    // if(daysOfWeek.includes(newValue)){
-
-    //     setDaysOfWeek((prev)=>(prev.filter(day=> day !== newValue)))
-    // }else{
-    //     setDaysOfWeek((prev)=>([...prev,newValue]))
-    // }
   };
   return (
     <Box>

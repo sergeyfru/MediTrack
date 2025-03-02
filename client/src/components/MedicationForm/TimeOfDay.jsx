@@ -36,7 +36,6 @@ export const TimeOfDay = ({ frequency, formData, setFormData }) => {
       const errorsArr = Array.from(parseInt(frequency)).map((_, i) => "");
 
       errorsArr[index] = "Select time";
-      console.log(errorsArr);
 
       setErrorTime(errorsArr);
       setErrors((prev) => ({
@@ -94,7 +93,6 @@ export const TimeOfDay = ({ frequency, formData, setFormData }) => {
         </Box>
       )}
 
-      {console.log(selectedTimes.length)}
     </Box>
   );
 };

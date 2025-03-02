@@ -40,12 +40,8 @@ export const LoginPage = () => {
       setErrors(newErrors);
     } else {
       await dispatch(login(user));
-      console.log(status);
       
-      // if(status ==='Success'){
-
-      //   navigate('/')
-      // }
+     
       setUser({
         email: "",
         password: "",

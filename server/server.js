@@ -8,7 +8,7 @@ import { userRouter } from "./router/user_router.js";
 import { checkRouter } from "./router/check_router.js";
 import cors from "cors";
 import dotenv from "dotenv";
-import './reminder/reminder.js'
+// import './reminder/reminder.js'
 
 dotenv.config();
 

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
 
 import { Header } from "./components/Header/Header.jsx";
 import { MedicalList } from "./components/MedicalList/MedicalList.jsx";
@@ -9,6 +9,8 @@ import { useSelector } from "react-redux";
 
 function App() {
 const show = useSelector(state => state.dataReducer.popup.show)
+
+
   return (
     <>
       <Router>

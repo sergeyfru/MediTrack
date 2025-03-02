@@ -17,12 +17,8 @@ const initialState = {
 
 export const getAllPills = createAsyncThunk("/pills/all", async () => {
   const user_id = localStorage.getItem("user_id");
-  console.log(user_id);
-
   try {
     const response = await axios.post(`${apiUrl}/pills/all`, { user_id });
-    console.log(response.data);
-
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -38,11 +34,9 @@ export const addPillToUser = createAsyncThunk(
   "/pills/addpill",
   async (data) => {
     data.user_id = localStorage.getItem("user_id");
-    console.log("addPillToUser ", data);
 
     try {
       const response = await axios.post(`${apiUrl}/pills/addpill`, data);
-      console.log(response.data);
 
       return response.data;
     } catch (error) {
@@ -251,6 +245,7 @@ export const dataSlice = createSlice({
           state.user = action.payload.user;
           localStorage.setItem("accessToken", action.payload.accessToken);
           localStorage.setItem("user_id", action.payload.user.user_id);
+          localStorage.setItem('isLogedIn',true)
         }
         state.status = "Success";
       })

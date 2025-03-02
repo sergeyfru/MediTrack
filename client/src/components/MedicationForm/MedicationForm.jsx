@@ -54,7 +54,6 @@ export const MedicationForm = ({ openAdd, setOpenAdd }) => {
         ...prevErrors,
         frequency: "",
       }));
-      console.log(formData);
     }
   };
 
@@ -112,7 +111,6 @@ export const MedicationForm = ({ openAdd, setOpenAdd }) => {
 
       }
     }
-    console.log(formData);
     
   };
 
@@ -128,13 +126,11 @@ export const MedicationForm = ({ openAdd, setOpenAdd }) => {
       ...prevErrors,
       [name]: "",
     }));
-    console.log(formData);
 
   };
 
   const handleSubmit = () => {
     const newErrors = { ...errors };
-    console.log(newErrors);
     
     
     Object.keys(formData).forEach((key) => {

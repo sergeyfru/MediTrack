@@ -6,11 +6,23 @@ export const _getAllUserPills = async ({ user_id }) => {
   try {
     const pills = await db('pills as p')
       .join('pill_schedules as ps', 'p.pill_id', '=', 'ps.pill_id')
+      .join('schedules_reminders as sr','ps.schedule_id','=','sr.schedule_id')
       .select(
         'p.pill_id',
         'p.pill_name',
         'p.dosage',
         'p.default_frequency',
+        // db.raw('array_agg(sr.reminder_time,) as reminders'),
+        db.raw(`
+          JSON_AGG(
+            JSON_BUILD_OBJECT(
+              'reminder_time', sr.reminder_time,
+              'reminder_id', sr.reminder_id,
+              'status', sr.status,
+              'schedule_id', sr.schedule_id
+            )
+          ) AS reminders
+        `),
         'ps.frequency',
         'ps.start_date',
         'ps.end_date',
@@ -19,7 +31,20 @@ export const _getAllUserPills = async ({ user_id }) => {
         'ps.days_of_week',
         'ps.custom_dates'
       )
-      .where('p.user_id', user_id);
+      .where('p.user_id', user_id)
+      .groupBy(
+        "p.pill_id",
+        "p.pill_name",
+        "p.dosage",
+        "p.default_frequency",
+        "ps.frequency",
+        "ps.start_date",
+        "ps.end_date",
+        "ps.times_per_day",
+        "ps.time_of_day",
+        "ps.days_of_week",
+        "ps.custom_dates"
+      );
     return pills;
   } catch (error) {
     console.error("Error fetching pills:", error);

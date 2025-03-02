@@ -14,7 +14,7 @@ import { Settings, LocalPharmacy } from "@mui/icons-material";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPills } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logOut } from "../../features/slice";
@@ -38,11 +38,18 @@ export const Header = () => {
   };
 
   const handleLogOut =() =>{
-    dispatch(logOut())
+    // dispatch(logOut())
     handleClose()
     navigate('/login')
   }
-
+  useEffect(()=>{
+    const isLogedIn = localStorage.getItem('isLogedIn')
+    if(isLogedIn){
+      navigate('/pills')
+    }else{
+      navigate('/login')
+    }
+  },[])
   return (
     <AppBar position="sticky" className="header" sx={{ marginBottom: "10px" }}>
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -77,13 +84,13 @@ export const Header = () => {
             horizontal: "right",
           }}
         >
-          <MenuItem onClick={() => handleNavigate("/")}>Profile</MenuItem>
+          {/* <MenuItem onClick={() => handleNavigate("/")}>Profile</MenuItem> */}
           <MenuItem onClick={() => handleNavigate("/pills")}>
             Your Medications
           </MenuItem>
           <MenuItem onClick={handleLogOut}>Logout</MenuItem>
-          <MenuItem onClick={() => handleNavigate("/login")}>Login</MenuItem>
-          <MenuItem onClick={() => handleNavigate("/registration")}>Registration</MenuItem>
+          {/* <MenuItem onClick={() => handleNavigate("/login")}>Login</MenuItem> */}
+          {/* <MenuItem onClick={() => handleNavigate("/registration")}>Registration</MenuItem> */}
         </Menu>
       </Toolbar>
     </AppBar>
