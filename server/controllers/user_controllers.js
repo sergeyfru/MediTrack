@@ -8,6 +8,7 @@ import {
 import bcrypt from "bcrypt";
 import {
   generateAccessToken,
+  generateEmailVerifyToken,
   generateRefreshToken,
   verifyEmailVerifyToken,
   verifyRefreshToken,
@@ -49,27 +50,24 @@ export const registration = async (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = await bcrypt.hash(password + "", salt);
 
-    const verify_token = generateEmailVerifyToken(user);
-
+    
     const newUser = await _registration({
       email,
       first_name,
       last_name,
       phone,
       password: hashedPassword,
-      verify_token,
+      // verify_token,
     });
-
+    const verify_token = generateEmailVerifyToken(newUser);
     const sendVerify = await sendEmailVerification(newUser, verify_token);
 
-    res
-      .status(201)
-      .json({
-        show: true,
-        title: "Success",
-        msg: "Registration successful!\nPlease confirm your email address",
-        user: newUser,
-      });
+    res.status(201).json({
+      show: true,
+      title: "Success",
+      msg: "Registration successful!\nPlease confirm your email address",
+      user: newUser,
+    });
   } catch (error) {
     console.error("Users controllers Registration =>", error);
     res.status(400).json({ title: "Error", msg: "Error during Registration" });
@@ -102,12 +100,9 @@ export const login = async (req, res) => {
         .status(200)
         .json({ show: false, msg: "Wrong email or password" });
     }
-if(!user.email_verified){
-  return res
-  .status(200)
-  .json({ show: true, msg: "Email not verified" });
-
-}
+    if (!user.email_verified) {
+      return res.status(200).json({ show: true, msg: "Email not verified" });
+    }
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
 
@@ -117,15 +112,13 @@ if(!user.email_verified){
       maxAge: process.env.REFRESH_TOKEN_EXPIRY,
     });
 
-    res
-      .status(200)
-      .json({
-        show: false,
-        title: "Success",
-        msg: "Logged in successfully",
-        accessToken,
-        user,
-      });
+    res.status(200).json({
+      show: false,
+      title: "Success",
+      msg: "Logged in successfully",
+      accessToken,
+      user,
+    });
   } catch (error) {
     console.error("Users controllers Login =>", error);
     res.status(404).json({ msg: "Error during Login" });

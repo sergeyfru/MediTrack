@@ -78,7 +78,7 @@ useEffect(()=>{
 
 
   return (
-    <Container  maxWidth="xs" sx={{ border: "black 1px solid" }}>
+    <Container  maxWidth="xs" >
       <Typography variant="h5" align="center" gutterBottom>
         Login
       </Typography>
@@ -111,6 +111,15 @@ useEffect(()=>{
               name="password"
               error={!!errors.password}
             />
+
+
+<Typography variant="body2" color="textSecondary" sx={{ marginTop: 2 }}>
+  For testing, you can use:
+  <br />
+  Email: <strong>testuser@example.com</strong>
+  <br />
+  Password: <strong>testpassword</strong>
+</Typography>
             {/* </Grid2>
 
           <Grid2 size={{ xs: 12, md: 8 }} spacing={2}> */}
